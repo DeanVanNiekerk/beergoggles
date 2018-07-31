@@ -7,6 +7,7 @@ const BeerTable = ({ beers, onEdit, onDelete }) => (
         <DefaultTable className="mb-0">
             <thead>
                 <tr>
+                    <th>Id</th>
                     <th>Name</th>
                     <th>Edit</th>
                     <th>Delete</th>
@@ -14,10 +15,11 @@ const BeerTable = ({ beers, onEdit, onDelete }) => (
             </thead>
             <tbody>
                 {beers.map(beer =>
-                    <tr key={beer.url}>
+                    <tr key={beer.id}>
+                        <td>{beer.id}</td>
                         <td>{beer.name}</td>
                         <td>
-                            <Edit2 onClick={() => onEdit(beer.url)} className="clickable text-success" size="18" />
+                            <Edit2 onClick={() => onEdit(beer.id)} className="clickable text-success" size="18" />
                         </td>
                         <td>
                             <Trash2 className="clickable text-danger" size="18" onClick={() => onDelete(beer)} />

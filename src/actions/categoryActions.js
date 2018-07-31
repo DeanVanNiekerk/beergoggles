@@ -9,7 +9,6 @@ export const fetchCategories = () => dispatch => {
         .then(response => response.json())
         .then(json => {
             dispatch(receiveCategories(json));
-            dispatch(receiveSelectedCategoryUrl(json[0].url));
         })
         .catch((error) => dispatch(fetchingCategoriesFailure(error)))
 }

@@ -22,8 +22,9 @@ class CategorySelect extends Component {
                 <Input type="select"
                     onChange={this.onChange}
                     value={this.props.selectedCategoryUrl}>
+                <option value=''>All</option>
                 {this.props.categories.map(category =>
-                    <option key={category.url} id={category.url} value={category.url}>
+                    <option key={category.url} value={category.url}>
                         {category.name}
                     </option>
                 )}

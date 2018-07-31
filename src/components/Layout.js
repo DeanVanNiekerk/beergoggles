@@ -5,7 +5,7 @@ const Layout = ({ children }) => (
     <div className="container">
         <div className="row justify-content-center">
             <div className="col col-lg-6">
-                <Navbar color="primary" dark>
+                <Navbar className="mb-2" color="primary" dark>
                     <NavbarBrand href="/">Beer Goggles</NavbarBrand>
                 </Navbar>
                 {children}
