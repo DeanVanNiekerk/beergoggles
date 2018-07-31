@@ -43,7 +43,7 @@ class EditBeer extends Component {
     return (
       <div>
         <h3>Edit Beer</h3>
-        <BeerForm beer={this.props.beer} categories={this.props.categories} save={this.save} cancel={this.cancel} />
+        <BeerForm beer={this.props.beer} categories={this.props.categories} validationErrors={this.props.validationErrors} save={this.save} cancel={this.cancel} />
       </div>
     )
 
@@ -55,6 +55,7 @@ const mapStateToProps = state => ({
   saving: state.beer.updatingBeer,
   error: state.beer.error,
   beer: state.beer.beer,
+  validationErrors: state.beer.validationErrors,
   categories: state.category.categories
 })
 

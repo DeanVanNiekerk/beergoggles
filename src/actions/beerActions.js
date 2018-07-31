@@ -6,9 +6,16 @@ export const RECEIVE_BEER = 'RECEIVE_BEER'
 export const FETCHING_BEER = 'FETCHING_BEER'
 export const FETCHING_BEER_FAILURE = 'FETCHING_BEER_FAILURE'
 
+export const UPDATING_BEER = 'UPDATING_BEER'
+export const UPDATED_BEER = 'UPDATED_BEER'
+
+export const RECIEVE_BEER_VALIDATION_ERRORS = 'RECIEVE_BEER_VALIDATION_ERRORS'
+
+const BASEAPI = 'http://apichallenge.canpango.com/beers';
+
 export const fetchBeers = (search) => dispatch => {
 
-    let api = `http://apichallenge.canpango.com/beers/`;
+    let api = `${BASEAPI}/`;
     if(search && search !== '')
         api += `search?q=${search}`;
 
@@ -16,9 +23,8 @@ export const fetchBeers = (search) => dispatch => {
     return fetch(api)
         .then(response => response.json())
         .then(json => {
-            let beers = json.map(b => {
-                let beer = { ...b };
-                let parts = b.url.split('/'); //Get beer id from the url
+            let beers = json.map(beer => {
+                let parts = beer.url.split('/'); //Get beer id from the url
                 beer.id = parts.pop() || parts.pop();
                 return beer;
             });
@@ -43,9 +49,12 @@ export const receiveBeers = (beers) => ({
 
 export const fetchBeer = (beerId) => dispatch => {
     dispatch(fetchingBeer())
-    return fetch(`http://apichallenge.canpango.com/beers/${beerId}`)
+    return fetch(`${BASEAPI}/${beerId}/`)
         .then(response => response.json())
-        .then(json => dispatch(receiveBeer(json)))
+        .then(beer => {
+            beer.id = beerId;
+            dispatch(receiveBeer(beer))
+        })
         .catch((error) => dispatch(fetchingBeersFailure(error)))
 }
 
@@ -64,9 +73,29 @@ export const receiveBeer = (beer) => ({
 })
 
 export const updateBeer = (beer) => dispatch => {
-    // dispatch(fetchingBeer())
-    // return fetch(`http://apichallenge.canpango.com/beers/${beerId}`)
-    //     .then(response => response.json())
-    //     .then(json => dispatch(receiveBeer(json)))
-    //     .catch((error) => dispatch(fetchingBeersFailure(error)))
+    dispatch(updatingBeer())
+    return fetch(`${BASEAPI}/${beer.id}/`, 
+        { 
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(beer)
+        })
+        .then((response) => {
+            dispatch(updatedBeer())
+            if(!response.ok)
+                response.json().then(errors => dispatch(receiveValidationErrors(errors)));
+        });
 }
+
+export const updatingBeer = () => ({
+    type: UPDATING_BEER
+})
+
+export const updatedBeer = () => ({
+    type: UPDATED_BEER
+})
+
+export const receiveValidationErrors = (errors) => ({
+    type: RECIEVE_BEER_VALIDATION_ERRORS,
+    errors
+})
