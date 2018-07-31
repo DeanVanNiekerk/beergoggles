@@ -9,14 +9,18 @@ export const FETCHING_BEER_FAILURE = 'FETCHING_BEER_FAILURE'
 export const UPDATING_BEER = 'UPDATING_BEER'
 export const UPDATED_BEER = 'UPDATED_BEER'
 
+export const INSERTING_BEER = 'INSERTING_BEER'
+export const INSERTED_BEER = 'INSERTED_BEER'
+
 export const RECIEVE_BEER_VALIDATION_ERRORS = 'RECIEVE_BEER_VALIDATION_ERRORS'
 
 const BASEAPI = 'http://apichallenge.canpango.com/beers';
 
+//BEER LIST ACTIONS ---------------------------------------------------------------
 export const fetchBeers = (search) => dispatch => {
 
     let api = `${BASEAPI}/`;
-    if(search && search !== '')
+    if (search && search !== '')
         api += `search?q=${search}`;
 
     dispatch(fetchingBeers())
@@ -46,7 +50,10 @@ export const receiveBeers = (beers) => ({
     type: RECEIVE_BEERS,
     beers
 })
+//---------------------------------------------------------------------------------
 
+
+//BEER ACTIONS --------------------------------------------------------------------
 export const fetchBeer = (beerId) => dispatch => {
     dispatch(fetchingBeer())
     return fetch(`${BASEAPI}/${beerId}/`)
@@ -71,18 +78,23 @@ export const receiveBeer = (beer) => ({
     type: RECEIVE_BEER,
     beer
 })
+//---------------------------------------------------------------------------------
 
-export const updateBeer = (beer) => dispatch => {
+
+//UPDATE BEER ACTIONS --------------------------------------------------------------
+export const updateBeer = (beer, success) => dispatch => {
     dispatch(updatingBeer())
-    return fetch(`${BASEAPI}/${beer.id}/`, 
-        { 
+    return fetch(`${BASEAPI}/${beer.id}/`,
+        {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(beer)
         })
         .then((response) => {
             dispatch(updatedBeer())
-            if(!response.ok)
+            if (response.ok)
+                success();
+            else
                 response.json().then(errors => dispatch(receiveValidationErrors(errors)));
         });
 }
@@ -93,6 +105,34 @@ export const updatingBeer = () => ({
 
 export const updatedBeer = () => ({
     type: UPDATED_BEER
+})
+//---------------------------------------------------------------------------------
+
+
+//INSERT BEER ACTIONS --------------------------------------------------------------
+export const insertBeer = (beer, success) => dispatch => {
+    dispatch(insertingBeer())
+    return fetch(`${BASEAPI}/`,
+        {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(beer)
+        })
+        .then((response) => {
+            dispatch(insertedBeer())
+            if (response.ok)
+                success();
+            else
+                response.json().then(errors => dispatch(receiveValidationErrors(errors)));
+        });
+}
+
+export const insertingBeer = () => ({
+    type: INSERTING_BEER
+})
+
+export const insertedBeer = () => ({
+    type: INSERTED_BEER
 })
 
 export const receiveValidationErrors = (errors) => ({

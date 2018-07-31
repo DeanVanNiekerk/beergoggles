@@ -7,6 +7,7 @@ const defaultState = {
     beer: [],
     fetchingBeer: false,
     updatingBeer: false,
+    insertingBeer: false,
 
     error: false,
     validationErrors: null
@@ -61,6 +62,17 @@ const store = (state = defaultState, action) => {
             return {
                 ...state,
                 updatingBeer: false
+            }
+        case actions.INSERTING_BEER:
+            return {
+                ...state,
+                insertingBeer: true,
+                validationErrors: null
+            }
+        case actions.INSERTED_BEER:
+            return {
+                ...state,
+                insertingBeer: false
             }
         case actions.RECIEVE_BEER_VALIDATION_ERRORS:
             return {
