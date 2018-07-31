@@ -12,6 +12,12 @@ export const UPDATED_BEER = 'UPDATED_BEER'
 export const INSERTING_BEER = 'INSERTING_BEER'
 export const INSERTED_BEER = 'INSERTED_BEER'
 
+export const DELETE_BEER_MODAL = 'DELETE_BEER_MODAL'
+export const DELETING_BEER = 'DELETING_BEER'
+export const DELETED_BEER = 'DELETED_BEER'
+
+export const VIEW_BEER_MODAL = 'VIEW_BEER_MODAL'
+
 export const RECIEVE_BEER_VALIDATION_ERRORS = 'RECIEVE_BEER_VALIDATION_ERRORS'
 
 const BASEAPI = 'http://apichallenge.canpango.com/beers';
@@ -139,3 +145,61 @@ export const receiveValidationErrors = (errors) => ({
     type: RECIEVE_BEER_VALIDATION_ERRORS,
     errors
 })
+//---------------------------------------------------------------------------------
+
+
+//DELETE BEER ACTIONS --------------------------------------------------------------
+export const showDeleteBeerModal = (beer) => {
+    return {
+        type: DELETE_BEER_MODAL,
+        show: true,
+        beer: beer
+    }
+}
+
+export const closeDeleteBeerModal = () => {
+    return {
+        type: DELETE_BEER_MODAL,
+        show: false
+    }
+}
+
+export const deleteBeer = (beer, success) => dispatch => {
+
+    dispatch(deletingBeer())
+    return fetch(`${BASEAPI}/${beer.id}/`,
+        {
+            method: "DELETE"
+        })
+        .then(() => {
+            dispatch(deletedBeer());
+            success();
+        });
+}
+
+export const deletingBeer = () => ({
+    type: DELETING_BEER
+})
+
+export const deletedBeer = () => ({
+    type: DELETED_BEER
+})
+//--------------------------------------------------------------------------------
+
+
+//VIEW BEER ACTIONS --------------------------------------------------------------
+export const showViewBeerModal = (beer) => {
+    return {
+        type: VIEW_BEER_MODAL,
+        show: true,
+        beer: beer
+    }
+}
+
+export const closeViewBeerModal = () => {
+    return {
+        type: VIEW_BEER_MODAL,
+        show: false
+    }
+}
+//--------------------------------------------------------------------------------

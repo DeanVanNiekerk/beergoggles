@@ -8,6 +8,8 @@ import configureStore from './stores/configureStore';
 import App from './App';
 
 import 'bootstrap/dist/css/bootstrap.css';
+import './styles/custom-css-bootstrap.css';
+import './styles/app.css'
 
 const store = configureStore();
 

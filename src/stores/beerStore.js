@@ -8,12 +8,17 @@ const defaultState = {
     fetchingBeer: false,
     updatingBeer: false,
     insertingBeer: false,
+    deletingBeer: false,
+
+    showDeleteBeerModal: false,
+    showViewBeerModal: false,
 
     error: false,
     validationErrors: null
 }
 
 const store = (state = defaultState, action) => {
+
     switch (action.type) {
         case actions.FETCHING_BEERS:
             return {
@@ -78,6 +83,28 @@ const store = (state = defaultState, action) => {
             return {
                 ...state,
                 validationErrors: action.errors
+            }
+        case actions.DELETE_BEER_MODAL:
+            return {
+                ...state,
+                showDeleteBeerModal: action.show,
+                beer: action.beer || {}
+            }
+        case actions.DELETING_BEER:
+            return {
+                ...state,
+                deletingBeer: true
+            }
+        case actions.DELETED_BEER:
+            return {
+                ...state,
+                deletingBeer: false
+            }
+        case actions.VIEW_BEER_MODAL:
+            return {
+                ...state,
+                showViewBeerModal: action.show,
+                beer: action.beer || {}
             }
         default:
             return state

@@ -18,8 +18,10 @@ class BeerSearch extends Component {
 
     render() {
         return (
-            <FormGroup>
+            <FormGroup className="m-0">
                 <Input type="text"
+                    placeholder="Search..."
+                    bsSize="sm"
                     onChange={this.onChange}>
                 </Input>
             </FormGroup>

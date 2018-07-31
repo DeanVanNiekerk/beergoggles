@@ -1,0 +1,9 @@
+
+.clickable {
+    cursor: pointer;
+}
+
+th.min {
+    width: 1%;
+    white-space: nowrap;
+}

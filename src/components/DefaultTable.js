@@ -3,7 +3,7 @@ import { Table } from 'reactstrap';
 
 const DefaultTable = ({ children }) => (
     <div>
-        <Table size="sm" className="mb-0">
+        <Table className="mb-0">
             {children}
         </Table>
     </div>

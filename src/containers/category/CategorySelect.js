@@ -18,16 +18,17 @@ class CategorySelect extends Component {
 
     render() {
         return (
-            <FormGroup>
+            <FormGroup className="m-0">
                 <Input type="select"
+                    bsSize="sm"
                     onChange={this.onChange}
                     value={this.props.selectedCategoryUrl}>
-                <option value=''>All</option>
-                {this.props.categories.map(category =>
-                    <option key={category.url} value={category.url}>
-                        {category.name}
-                    </option>
-                )}
+                    <option value=''>&#x3C;select category&#x3E;</option>
+                    {this.props.categories.map(category =>
+                        <option key={category.url} value={category.url}>
+                            {category.name}
+                        </option>
+                    )}
                 </Input>
             </FormGroup>
         )
