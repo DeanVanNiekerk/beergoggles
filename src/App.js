@@ -1,12 +1,15 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import CategoryList from './containers/category/CategoryList';
+import Layout from './components/Layout';
+import BeersView from './containers/beer/BeersView';
 
 export default () => (
-  <Switch>
+  <Layout>
+    <Switch>
 
-    <Route exact path='/' component={CategoryList} />
-    <Route exact path='/categories' component={CategoryList} />
+      <Route exact path='/' component={BeersView} />
+      <Route exact path='/beers' component={BeersView} />
 
-  </Switch>
+    </Switch>
+  </Layout>
 );

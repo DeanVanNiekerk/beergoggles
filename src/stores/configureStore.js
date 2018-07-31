@@ -1,32 +1,20 @@
-﻿import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import { connectRouter, routerMiddleware } from 'connected-react-router'
+﻿import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import categoryStore from './categoryStore';
+import beerStore from './beerStore';
 
-export default function configureStore(history, initialState) {
+export default function configureStore() {
   const reducers = {
     category: categoryStore,
+    beer: beerStore
   };
-
-  const middleware = [
-    thunk,
-    routerMiddleware(history)
-  ];
-
-  // In development, use the browser's Redux dev tools extension if installed
-  const enhancers = [];
-  const isDevelopment = process.env.NODE_ENV === 'development';
-  if (isDevelopment && typeof window !== 'undefined' && window.devToolsExtension) {
-    enhancers.push(window.devToolsExtension());
-  }
 
   const rootReducer = combineReducers({
     ...reducers
   });
 
   return createStore(
-    connectRouter(history)(rootReducer),
-    initialState,
-    compose(applyMiddleware(...middleware), ...enhancers)
+    rootReducer,
+    applyMiddleware(thunk)
   );
 }
